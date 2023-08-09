@@ -1,0 +1,6 @@
+.service {
+    background-image: url('../../../assets/home/chef-service.jpg');
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+}
