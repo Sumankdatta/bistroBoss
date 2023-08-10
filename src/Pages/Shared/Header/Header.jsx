@@ -1,13 +1,51 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../../context/AuthProvider";
+import { toast } from "react-hot-toast";
+import { FaShoppingCart } from 'react-icons/fa';
 
 
 const Header = () => {
+    const { user, logOut } = useContext(AuthContext);
+
+    const handleLogOut = () => {
+        logOut()
+            .then(() => {
+                toast.success('Log out successfully')
+            })
+            .catch(err => console.err(err))
+    }
+
 
     const menuItems = <>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/menu">Menu</Link></li>
         <li><Link to="/order/salad">Order Food</Link></li>
-        <li><Link to="/login"> Login</Link></li>
+        <li><Link to="/secrect">Secrect</Link></li>
+        <li><Link to="/">
+            <button className="btn btn-sm flex items-center mr-2">
+                <FaShoppingCart />
+                <div className="badge badge-secondary">+99</div>
+            </button>
+        </Link></li>
+
+        {
+            user?.uid ?
+                <>
+                    <li><Link><button onClick={handleLogOut}>Log Out</button> </Link></li>
+
+                </>
+                :
+                <>
+                    <li><Link to="/login"> Login</Link></li>
+                    <li><Link to="/signup"> Sign Up</Link></li>
+                </>
+        }
+
+
+
+
+
     </>
 
     return (

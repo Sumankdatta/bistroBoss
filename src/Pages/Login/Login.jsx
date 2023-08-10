@@ -1,28 +1,52 @@
-import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha'
+// import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha'
 import loginImg1 from '../../assets/others/authentication.png'
 import loginImg2 from '../../assets/others/authentication2.png'
-import { useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthProvider';
+import { toast } from 'react-hot-toast';
+
 
 const Login = () => {
-    const [isDiable, setIsDisable] = useState(true)
+    // const [isDisable, setIsDisable] = useState(true);
+    const [loginError, setLoginError] = useState('')
+    // const captchaRef = useRef(null);
+    const { userLogin } = useContext(AuthContext);
+    const navigate = useNavigate()
+    const location = useLocation()
+    console.log(location)
+    const from = location.state?.from?.pathname || '/'
 
-    useEffect(() => {
-        loadCaptchaEnginge(6);
-    }, [])
 
-    const handleBlur = (e) => {
-        const user_captcha_value = e.target.value;
-        console.log(user_captcha_value)
-        if (validateCaptcha(user_captcha_value) == true) {
+    // useEffect(() => {
+    //     loadCaptchaEnginge(6);
+    // }, [])
+    // if we onblur system implement must onBlur on input field
+    // const handleBlur = (e) => {
+    //     const user_captcha_value = e.target.value;
 
-            setIsDisable(false)
-            alert('match')
-        }
+    //     console.log(user_captcha_value)
+    //     if (validateCaptcha(user_captcha_value) == true) {
+    //         setIsDisable(false)
 
-        else {
-            setIsDisable(true);
-        }
-    }
+    //     }
+
+    //     else {
+    //         setIsDisable(true);
+    //     }
+    // }
+
+    // const handleValidate = () => {
+    //     const user_captcha_value = captchaRef.current.value;
+    //     console.log(user_captcha_value)
+    //     if (validateCaptcha(user_captcha_value) == true) {
+    //         setIsDisable(false)
+    //     }
+
+    //     else {
+    //         setIsDisable(true)
+    //     }
+    // }
 
     const handleLogin = (event) => {
         event.preventDefault()
@@ -30,10 +54,25 @@ const Login = () => {
         const email = form.email.value;
         const password = form.password.value;
 
+        userLogin(email, password)
+            .then(result => {
+                const user = result.user;
+                console.log(user)
+                toast.success('Login successfully')
+                navigate(from, { replace: true })
+            })
+            .catch(error => {
+                console.error(error)
+                setLoginError(error.message)
+            })
+
     }
+
+
+
     return (
-        <div style={{ backgroundImage: `url(${loginImg1})` }} className="hero min-h-screen ">
-            <div className="lg:flex justify-evenly items-center">
+        <div style={{ backgroundImage: `url(${loginImg1})` }} className="hero  ">
+            <div style={{ backgroundImage: `url(${loginImg1})` }} className="lg:flex justify-evenly items-center shadow-lg pb-5">
                 <div >
                     <img className="w-4/5" src={loginImg2} alt="" />
                 </div>
@@ -55,19 +94,21 @@ const Login = () => {
                                 <a href="#" className="label-text-alt link link-hover font-semibold">Forgot password?</a>
                             </label>
                         </div>
-                        <div className="form-control">
+                        {/* <div className="form-control">
                             <label className="label">
-                                < LoadCanvasTemplateNoReload />
+                                < LoadCanvasTemplate />
                             </label>
                             <input onBlur={handleBlur} type="text" name="captcha" placeholder="captcha" className="input input-bordered" />
-                            <label className="label">
-                                <a href="#" className="label-text-alt link link-hover font-semibold">Forgot password?</a>
-                            </label>
-                        </div>
+                            <input ref={captchaRef} type="text" name="captcha" placeholder="captcha" className="input input-bordered" />
+                            <input onClick={handleValidate} className='btn btn-accent btn-xs mt-5' type="submit" value="Captcha validate" />
+                        </div> */}
+                        <p className='text-red-500'>{loginError.slice(9)}</p>
+
                         <div className="form-control mt-6">
-                            <input disabled={isDiable} className='btn btn-primary' type="submit" value="Login" />
+                            <input className='btn btn-primary' type="submit" value="Login" />
                         </div>
                     </form>
+                    <p className='pb-10 ms-10'>New to account?<Link to='/signup'>Please Sign Up</Link></p>
                 </div>
             </div>
         </div>
