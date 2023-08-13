@@ -3,10 +3,16 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthProvider";
 import { toast } from "react-hot-toast";
 import { FaShoppingCart } from 'react-icons/fa';
+import useCarts from "../../../hooks/useCarts";
+import useAdmin from "../../../hooks/useAdmin";
+
 
 
 const Header = () => {
     const { user, logOut } = useContext(AuthContext);
+    const [carts] = useCarts()
+    // const [isAdmin] = useAdmin()
+    // const isAdmin = true
 
     const handleLogOut = () => {
         logOut()
@@ -21,13 +27,16 @@ const Header = () => {
         <li><Link to="/">Home</Link></li>
         <li><Link to="/menu">Menu</Link></li>
         <li><Link to="/order/salad">Order Food</Link></li>
-        <li><Link to="/secrect">Secrect</Link></li>
-        <li><Link to="/">
+
+
+        <li><Link to="/dashboard/mycart">
             <button className="btn btn-sm flex items-center mr-2">
                 <FaShoppingCart />
-                <div className="badge badge-secondary">+99</div>
+                <div className="badge badge-secondary">+{carts?.length || 0}</div>
             </button>
         </Link></li>
+
+
 
         {
             user?.uid ?

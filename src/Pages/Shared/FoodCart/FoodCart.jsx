@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthProvider";
 import Swal from "sweetalert2";
 import { useLocation, useNavigate } from "react-router-dom";
+import useCarts from "../../../hooks/useCarts";
 
 
 const FoodCart = ({ item }) => {
@@ -9,6 +10,7 @@ const FoodCart = ({ item }) => {
     const { user } = useContext(AuthContext)
     const navigate = useNavigate()
     const location = useLocation()
+    const [, refetch] = useCarts()
 
     const handleAddToCart = (item) => {
         console.log(item)
@@ -24,7 +26,7 @@ const FoodCart = ({ item }) => {
                 .then(res => res.json())
                 .then(data => {
                     if (data.insertedId) {
-
+                        refetch()
                         Swal.fire({
                             position: 'top-end',
                             icon: 'success',
@@ -36,18 +38,20 @@ const FoodCart = ({ item }) => {
 
                 })
         }
-        Swal.fire({
-            title: 'Login first',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Login'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                navigate("/login", { state: { from: location } })
-            }
-        })
+        else {
+            Swal.fire({
+                title: 'Login first',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Login'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate("/login", { state: { from: location } })
+                }
+            })
+        }
 
     }
 

@@ -7,6 +7,10 @@ import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/SignUp/SignUp";
 import Secrect from "../Pages/Secrect/Secrect";
 import PrivateRoute from "./PrivateRoute";
+import DashboardLayout from "../layout/DashboardLayout";
+import MyCart from "../Pages/Dashboard/MyCart/MyCart";
+import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
     {
@@ -36,6 +40,20 @@ export const router = createBrowserRouter([
             {
                 path: '/secrect',
                 element: <PrivateRoute><Secrect></Secrect></PrivateRoute>
+            }
+        ]
+    },
+    {
+        path: '/dashboard',
+        element: <DashboardLayout></DashboardLayout>,
+        children: [
+            {
+                path: '/dashboard/mycart',
+                element: <MyCart></MyCart>
+            },
+            {
+                path: '/dashboard/alluser',
+                element: <AdminRoute><AllUsers></AllUsers></AdminRoute>
             }
         ]
     }

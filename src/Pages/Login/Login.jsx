@@ -5,6 +5,7 @@ import { useContext, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthProvider';
 import { toast } from 'react-hot-toast';
+import SocialLogin from '../Shared/SocialLogin/SocialLogin';
 
 
 const Login = () => {
@@ -109,6 +110,7 @@ const Login = () => {
                         </div>
                     </form>
                     <p className='pb-10 ms-10'>New to account?<Link to='/signup'>Please Sign Up</Link></p>
+                    <SocialLogin></SocialLogin>
                 </div>
             </div>
         </div>

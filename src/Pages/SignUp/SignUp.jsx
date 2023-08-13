@@ -5,13 +5,16 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthProvider';
 import { toast } from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
+import SocialLogin from '../Shared/SocialLogin/SocialLogin';
+
 
 
 const SignUp = () => {
-    const { createUser, userProfile } = useContext(AuthContext)
+    const { createUser, userProfile, } = useContext(AuthContext)
     const { register, handleSubmit, formState: { errors } } = useForm()
     const navigate = useNavigate();
     const [error, setError] = useState('')
+
 
     const handleSignUp = (data) => {
         console.log(data)
@@ -21,8 +24,9 @@ const SignUp = () => {
                 user.displayName = data.name
                 console.log(user)
                 handleUpdateProfile(data.name)
-                toast.success('user create successfully')
-                navigate('/')
+                saveUser(data.name, data.email)
+
+
             })
             .catch(error => {
                 console.log(error.message)
@@ -39,6 +43,35 @@ const SignUp = () => {
             .then(() => { })
             .catch(err => console.err(err))
 
+    }
+
+    // const handleGoogleLogin = () => {
+    //     googleLogin()
+    //         .then(result => {
+    //             const user = result.user;
+    //             console.log(user)
+    //         })
+    //         .catch(error => console.error(error))
+    // }
+
+    const saveUser = (name, email) => {
+        const user = {
+            name: name,
+            email: email
+        }
+        fetch('http://localhost:5000/users', {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(user)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                toast.success('user create successfully')
+                navigate('/')
+            })
     }
 
     return (
@@ -91,7 +124,14 @@ const SignUp = () => {
                         </div>
                     </form>
                     <p className='pb-5 ms-10'>Already have an account?<Link to='/login'>Please Login</Link></p>
+                    {/* <div className='mx-10 mb-10'>
+                        <button onClick={handleGoogleLogin} className=' text-3xl btn mb-2 btn-outline w-full'><FaGoogle></FaGoogle></button><br />
+                        <button className='text-3xl btn btn-outline w-full'><FaFacebook></FaFacebook></button>
+
+                    </div> */}
+                    <SocialLogin></SocialLogin>
                 </div>
+
             </div>
         </div>
     );
