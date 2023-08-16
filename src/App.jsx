@@ -1,19 +1,31 @@
-import './App.css'
+import { RouterProvider } from "react-router-dom";
+import { router } from "./routes/route";
+import { useState } from "react";
+import { useEffect } from "react";
+import Secrect from "./Pages/Secrect/Secrect";
 
-function App() {
+
+const App = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
+
 
 
   return (
-    <>
-      <button className="btn">Button</button>
-      <button className="btn btn-neutral">Neutral</button>
-      <button className="btn btn-primary">Primary</button>
-      <button className="btn btn-secondary">Secondary</button>
-      <button className="btn btn-accent">Accent</button>
-      <button className="btn btn-ghost">Ghost</button>
-      <button className="btn btn-link">Link</button>
-    </>
-  )
-}
+    <div >
+      {isLoading ? (
+        <Secrect></Secrect>
+      ) : (
+        <RouterProvider router={router}></RouterProvider>
+      )}
 
-export default App
+    </div>
+  );
+};
+
+export default App;

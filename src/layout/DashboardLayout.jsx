@@ -31,8 +31,9 @@ const DashboardLayout = () => {
                             isAdmin ?
                                 <>
                                     <li><NavLink to="/dashboard"><FaHome /> Admin Home</NavLink></li>
-                                    <li><NavLink><FaUtensils /> Add item</NavLink></li>
-                                    <li><NavLink><FaBars />Manage Items</NavLink></li>
+                                    <li><NavLink to="/dashboard/additem"><FaUtensils /> Add item</NavLink></li>
+                                    <li><NavLink to="/dashboard/manageitem"><FaBars />Manage Items</NavLink></li>
+                                    <li><NavLink to="/dashboard/updateitem"><FaBars />Update Item</NavLink></li>
                                     <li><NavLink><FaBook /> manage Booking</NavLink></li>
                                     <li><NavLink to="/dashboard/alluser"><FaUsers />All users</NavLink></li>
                                 </>

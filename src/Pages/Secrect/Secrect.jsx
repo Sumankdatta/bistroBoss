@@ -1,9 +1,14 @@
-
+import img from '../../assets/others/cupcake-dribbble.gif'
 
 const Secrect = () => {
     return (
         <div>
-            <h2>very serect </h2>
+            <div className="loading-screen">
+                <div className="spinner">
+                    <img src={img} alt="" />
+                </div>
+                {/* You can add more loading indicators or messages here */}
+            </div>
         </div>
     );
 };

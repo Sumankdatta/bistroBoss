@@ -4,7 +4,7 @@ import { AuthContext } from "../../../context/AuthProvider";
 import { toast } from "react-hot-toast";
 import { FaShoppingCart } from 'react-icons/fa';
 import useCarts from "../../../hooks/useCarts";
-import useAdmin from "../../../hooks/useAdmin";
+
 
 
 
@@ -27,6 +27,7 @@ const Header = () => {
         <li><Link to="/">Home</Link></li>
         <li><Link to="/menu">Menu</Link></li>
         <li><Link to="/order/salad">Order Food</Link></li>
+        <li><Link to="/secrect">secrect</Link></li>
 
 
         <li><Link to="/dashboard/mycart">
